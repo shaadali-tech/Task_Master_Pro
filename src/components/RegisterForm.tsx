@@ -10,10 +10,9 @@ interface RegisterFormInputs {
 
 export const RegisterForm: React.FC = () => {
   const { register: registerUser } = useAuth();
-  const { register, handleSubmit, watch, formState } = useForm<RegisterFormInputs>();
-  const password = watch("password");
+  const { register, handleSubmit, formState } = useForm<RegisterFormInputs>();
 
-  const (data: RegisterFormInputs) => {
+  const onSubmit = async (data: RegisterFormInputs) => {
     if (data.password !== data.confirmPassword) {
       alert("Passwords do not match");
       return;
@@ -27,7 +26,7 @@ export const RegisterForm: React.FC = () => {
   };
 
   return (
-    <form
+    <form onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register("email", { required: "Email is required" })}
         placeholder="Email"
@@ -39,7 +38,9 @@ export const RegisterForm: React.FC = () => {
         type="password"
       />
       <input
-        {...register("confirmPassword", { required: "Please confirm password" })}
+        {...register("confirmPassword", {
+          required: "Please confirm password",
+        })}
         placeholder="Confirm Password"
         type="password"
       />

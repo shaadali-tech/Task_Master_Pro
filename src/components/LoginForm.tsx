@@ -11,7 +11,7 @@ export const LoginForm: React.FC = () => {
   const { login } = useAuth();
   const { register, handleSubmit, formState } = useForm<LoginFormInputs>();
 
-  const (data: LoginFormInputs) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     try {
       await login(data.email, data.password);
       alert("Logged in successfully");
@@ -21,7 +21,7 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <form
+    <form onSubmit={handleSubmit(onSubmit)}>
       <input
         {...register("email", { required: "Email is required" })}
         placeholder="Email"
